@@ -30,10 +30,12 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: { locale: string } | Promise<{ locale: string }>;
 }) {
+  const resolvedParams = await Promise.resolve(params);
+
   return (
-    <html lang={params.locale} className="bg-black text-white">
+    <html lang={resolvedParams.locale} className="bg-black text-white">
       <head>
         {/* These will be rendered automatically by metadata.alternates */}
       </head>
