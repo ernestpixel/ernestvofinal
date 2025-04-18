@@ -1,4 +1,4 @@
-export const translations = {
+const translations = {
   en: {
     voiceDemos: "Voiceover Demos",
     about: "About",
@@ -40,8 +40,13 @@ export const translations = {
     aboutBio2: "Dincolo de actorie, conduc o agenție de Web Design și Marketing, unde creativitatea și arta povestirii ocupă un rol central în activitatea mea. Muzica este, de asemenea, o parte esențială din viața mea—cânt, compun la chitară și concertez constant alături de trupa mea, creând momente pline de armonie și energie comună.",
     aboutBio3: "Voice acting-ul a devenit o extensie firească a parcursului meu artistic, deoarece cred că fiecare poveste merită să fie auzită, simțită și trăită pe deplin. Să dau voce poveștilor simt că este parte din menirea mea. Mai presus de toate, iubesc oamenii și am încredere profundă în bunătatea fiecăruia dintre noi.",
   },
-};
+} as const;
+
+type Locale = keyof typeof translations;
+type TranslationKey = keyof typeof translations["en"];
 
 export function getTranslation(locale: string, key: string): string {
-  return translations[locale as keyof typeof translations]?.[key] || translations["en"][key] || key;
+  const safeLocale: Locale = locale in translations ? (locale as Locale) : "en";
+  const value = translations[safeLocale][key as TranslationKey];
+  return value ?? translations["en"][key as TranslationKey] ?? key;
 }
