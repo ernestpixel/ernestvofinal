@@ -7,9 +7,8 @@ export default function LanguageSwitcher() {
   const { locale } = useParams();
   const pathname = usePathname();
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition(); // ✅ fixed unused var
 
-  // ✅ Fallback to detected browser language when locale is undefined
   const [detectedLocale, setDetectedLocale] = useState('en');
 
   useEffect(() => {
@@ -25,7 +24,9 @@ export default function LanguageSwitcher() {
   const newLocale = currentLocale === 'en' ? 'ro' : 'en';
 
   const handleChange = () => {
-    const newPath = pathname.replace(`/${locale || ''}`, `/${newLocale}`);
+    const pathWithoutLocale = pathname.replace(/^\/(en|ro)/, '');
+    const newPath = `/${newLocale}${pathWithoutLocale || '/'}`;
+
     startTransition(() => {
       router.push(newPath);
     });
