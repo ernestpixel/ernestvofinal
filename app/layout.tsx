@@ -7,7 +7,7 @@ config.autoAddCss = false;
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "700"], // Regular and bold weights
+  weight: ["400", "500", "600", "700"], // Regular and bold weights
 });
 
 export const metadata: Metadata = {
